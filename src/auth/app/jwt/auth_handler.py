@@ -1,10 +1,12 @@
 import time
 from typing import Dict
 import jwt
+import os
 
 
-JWT_SECRET="please_please_update_me_please"
-JWT_ALGORITHM='HS256'
+JWT_SECRET = os.environ["JWT_SECRET"]
+JWT_ALGORITHM = os.environ["JWT_ALGORITHM"]
+
 
 
 def token_response(token: str):

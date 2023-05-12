@@ -4,15 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from passlib.context import CryptContext
 import os 
 
-# POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
-# POSTGRES_HOST = os.environ["POSTGRES_HOST"]
-# POSTGRES_PORT = os.environ["POSTGRES_PORT"]
-# POSTGRES_DATABASE = os.environ["POSTGRES_DATABASE"]
+POSTGRES_PASSWORD = os.environ["POSTGRES_PASSWORD"]
+POSTGRES_HOST = os.environ["POSTGRES_HOST"]
+POSTGRES_PORT = os.environ["POSTGRES_PORT"]
 
 
-# DATABASE_URL = f"postgresql://postgres:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DATABASE}"
-DATABASE_URL = f"postgresql://postgres:pass@0.0.0.0:5432/postgres"
-
+DATABASE_URL = f"postgresql://postgres:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
