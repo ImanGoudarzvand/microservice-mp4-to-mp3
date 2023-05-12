@@ -1,0 +1,23 @@
+FROM python:3.10-slim-bullseye
+
+# env variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# setting work directory
+WORKDIR /app
+
+# install psycopg dependencies
+RUN apt-get update && apt-get install -y \
+    libpq-dev python3-dev postgresql-server-dev-all
+
+
+COPY ./requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY . .
+
+EXPOSE 9000
+
+CMD ["uvicorn", "app.server:server", "--host", "0.0.0.0", "--port", "9000"]

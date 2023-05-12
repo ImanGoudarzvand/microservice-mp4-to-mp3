@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# kubernetes
+secret.yaml
+
+todo
+
+# just for testing in compose:
+docker-compose.yaml

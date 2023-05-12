@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mp4-mp3-postgres-statefulset
+  namespace: mp4-to-mp3
+spec:
+  selector:
+    matchLabels:
+      app: postgres # has to match .spec.template.metadata.labels
+  serviceName: mp4-mp3-postgres-statefulset-svc
+  replicas: 1 # by default is 1
+  template:
+    metadata:
+      labels:
+        app: postgres # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:11.19-bullseye
+        ports:
+        - containerPort: 5432
+        envFrom:
+          - configMapRef:
+              name: auth-configmap
+          - secretRef:
+              name: auth-secret
+        volumeMounts:
+        - name: pvc
+          mountPath: /var/lib/postgresql/data/
+  volumeClaimTemplates:
+  - metadata:
+      name: pvc
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mp4-mp3-postgres-statefulset-svc
+   
+spec:
+  selector:
+    app: postgres
+  clusterIP: None
+  ports:
+    - port: 5432
+      targetPort: 5432
