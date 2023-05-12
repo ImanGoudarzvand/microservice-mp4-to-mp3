@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from .models import User, Base
 from .database import engine, SessionLocal, pwd_context
-from .schemas import User, UserCreate, UserLogin
+from .schemas import User as UserSchema, UserCreate, UserLogin
 from app.services.user import create_user
 from app.selectors.user import get_user
 from app.jwt.auth_handler import signJWT, decodeJWT
@@ -25,7 +25,7 @@ def get_db():
         db.close()
 
 
-@server.post('/signup/', response_model = User)
+@server.post('/signup/', response_model = UserSchema)
 def register(
     request: Request,
     user: UserCreate,
