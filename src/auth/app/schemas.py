@@ -3,7 +3,8 @@ from fastapi import HTTPException, status
 from .validators import (number_validator,
                         special_char_validator,
                         letter_validator,
-                        min_length_validator)
+                        min_length_validator,
+                        simple_email_validator)
 
 class User(BaseModel):
     email: str 
@@ -26,6 +27,7 @@ class UserLogin(BaseModel):
         
         if v == " " :   # ro make sure email is set
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "Please enter your email!")
+
         return v
         
 
@@ -43,6 +45,13 @@ class UserCreate(BaseModel):
         number_validator(v)
         special_char_validator(v)
         letter_validator(v)
+    
+        return v
+
+    @validator('email')
+    def check_if_email_is_a_proper_email(cls, v):
+        
+        simple_email_validator(v)
     
         return v
         

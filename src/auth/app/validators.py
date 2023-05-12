@@ -22,3 +22,13 @@ def special_char_validator(password):
 def min_length_validator(password):
     if len(password) < 8:
         raise HTTPException(400, "password length must be at least 8")
+
+def simple_email_validator(email: str):
+
+    if email.find("@") == -1:
+        raise HTTPException(400, "Please enter a valid email address!")
+
+    user_part, domain_part = email.split("@")
+
+    if domain_part.find(".com") == -1:
+        raise HTTPException(400, "Email address should end with .com")
