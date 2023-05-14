@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: mp4-mp3/auth:9
+          image: mp4-mp3/auth:10
           imagePullPolicy: Never
           ports:
             - containerPort: 9000
