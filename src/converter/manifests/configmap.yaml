@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: converter-configmap
+  namespace: mp4-to-mp3
+data:
+  MONGODB_HOST: mp4-mp3-mongodb-statefulset-svc
+  VIDEO_QUEUE: video 
+  MP3_QUEUE: mp3
+  MONGODB_PORT: "27017"

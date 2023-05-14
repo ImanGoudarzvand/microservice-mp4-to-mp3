@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  converter-deployment
+  namespace: mp4-to-mp3
+  labels:
+    app: converter
+spec:
+  selector:
+    matchLabels:
+      app: converter
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxSurge: 8
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  converter
+    spec:
+      containers:
+      - name:  converter
+        image:  mp4-mp3/converter:4
+        imagePullPolicy: Never
+        envFrom:
+          - secretRef:
+              name: converter-secret
+          - configMapRef:
+              name: converter-configmap
