@@ -1,0 +1,9 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata:
+  name: gateway-configmap
+  namespace: mp4-to-mp3
+data: 
+  AUTH_SVC_ADDRESS: auth-service:9000
+  MONGODB_HOST: mp4-mp3-mongodb-statefulset-svc
+  MONGODB_PORT: "27017"
