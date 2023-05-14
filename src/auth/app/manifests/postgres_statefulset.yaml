@@ -17,6 +17,7 @@ spec:
       containers:
       - name: postgres
         image: postgres:11.19-bullseye
+        imagePullPolicy: Never
         ports:
         - containerPort: 5432
         envFrom:
