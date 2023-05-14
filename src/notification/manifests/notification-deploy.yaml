@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name:  notification
-        image:  notification:6
+        image:  mp4-mp3/notification:6
         imagePullPolicy: Never
         envFrom:
           - secretRef:
