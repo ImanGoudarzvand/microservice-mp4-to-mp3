@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq-statefulset
+  namespace: mp4-to-mp3
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq # has to match .spec.template.metadata.labels
+  serviceName: "not-applicable"
+  template:
+    metadata:
+      labels:
+        app: rabbitmq # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3-management
+        imagePullPolicy: Never
+        ports:
+          - name: http
+            protocol: TCP
+            containerPort: 15672
+          - name: amqp
+            protocol: TCP 
+            containerPort: 5672
+        envFrom:
+          - configMapRef:
+              name: rabbitmq-configmap
+          - secretRef:
+              name: rabbitmq-secret
+        
+        volumeMounts:
+          - name: rabbitmq-volume
+            mountPath: "/var/lib/rabbitmq"
+      volumes: 
+        - name: rabbitmq-volume
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-service
+  namespace: mp4-to-mp3
+spec:
+  selector:
+    app: rabbitmq
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 15672
+    targetPort: 15672
+  - name: amqp
+    protocol: TCP
+    port: 5672
+    targetPort: 5672

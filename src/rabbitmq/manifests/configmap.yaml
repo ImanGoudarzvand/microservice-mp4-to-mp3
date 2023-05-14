@@ -1,0 +1,7 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: rabbitmq-configmap
+  namespace: mp4-to-mp3
+data:
+  PLACEHOLDER: "NONE"
