@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: smtp4dev-statefulset
+spec:
+  selector:
+    matchLabels:
+      app: smtp4dev # has to match .spec.template.metadata.labels
+  serviceName: "not-applicable"
+  template:
+    metadata:
+      labels:
+        app: smtp4dev # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: smtp4dev
+        image: rnwood/smtp4dev:v3
+        imagePullPolicy: Never
+        ports:
+          - name: web
+            protocol: TCP
+            containerPort: 80
+          - name: smtp
+            protocol: TCP 
+            containerPort: 25
+        envFrom:
+          - configMapRef:
+              name: smtp4dev-configmap
+          - secretRef:
+              name: smtp4dev-secret
+        
+        volumeMounts:
+          - name: smtp4dev-volume
+            mountPath: "/var/lib/smtp4dev"
+      volumes: 
+        - name: smtp4dev-volume
+          persistentVolumeClaim:
+            claimName: smtp4dev-pvc
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtp4dev-statefulset-svc
+spec:
+  selector:
+    app: smtp4dev
+  type: ClusterIP
+  ports:
+  - name: web
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: smtp
+    protocol: TCP
+    port: 25
+    targetPort: 25
