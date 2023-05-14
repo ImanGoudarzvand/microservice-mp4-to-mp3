@@ -76,7 +76,7 @@ def upload(request: Request, file: UploadFile):
     # return {"OK"}
 
 
-@app.get("/download")
+@server.get("/download")
 def download(request: Request, fid: str):
     access, error = validate.token(request)
     if not access:
