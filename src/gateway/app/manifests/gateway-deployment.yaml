@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: mp4-mp3/gateway:7
+          image: mp4-mp3/gateway:8
           imagePullPolicy: Never
           ports:
             - containerPort: 8000
