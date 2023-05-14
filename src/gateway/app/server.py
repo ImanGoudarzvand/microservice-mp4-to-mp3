@@ -76,7 +76,25 @@ def upload(request: Request, file: UploadFile):
     # return {"OK"}
 
 
-@server.get("/download")
+@app.get("/download")
 def download(request: Request, fid: str):
-    return {"pass"}
+    access, error = validate.token(request)
+    if not access:
+        raise HTTPException(status_code=403, detail="Invalid credentials")
+
+    access = json.loads(access) # from str to python dict 
+
+    if not fid:
+        return "fid is required", 400
+
+    try:
+        out = fs_mp3s.get(ObjectId(fid))
+
+        with open (f"{fid}.mp3", 'wb') as f:
+            f.write(out.read())
+
+        return FileResponse(f"{fid}.mp3")
+    except Exception as err:
+        # print(err)
+        return "internal server error", err
 
