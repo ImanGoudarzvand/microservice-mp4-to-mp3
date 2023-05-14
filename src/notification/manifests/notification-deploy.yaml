@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  notification-deployment
+  namespace: mp4-to-mp3
+  labels:
+    app:  notification
+spec:
+  selector:
+    matchLabels:
+      app: notification
+  replicas: 4
+  strategy:
+    rollingUpdate:
+      maxSurge: 8
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  notification
+    spec:
+      containers:
+      - name:  notification
+        image:  notification:6
+        imagePullPolicy: Never
+        envFrom:
+          - secretRef:
+              name: notification-secret
+          - configMapRef:
+              name: notification-configmap
