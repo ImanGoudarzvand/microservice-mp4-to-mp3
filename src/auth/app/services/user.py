@@ -3,7 +3,7 @@ from ..database import pwd_context
 from ..models import User
 
 
-def create_user(*, email, password, db: Session):
+def create_user(*, email, password, db: Session) -> User:
 
     hashed_password = pwd_context.hash(password)
     

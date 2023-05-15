@@ -93,7 +93,7 @@ def download(request: Request, fid: str):
         with open (f"{fid}.mp3", 'wb') as f:
             f.write(out.read())
 
-        return FileResponse(f"{fid}.mp3")
+        return FileResponse(f"{fid}.mp3", filename=f"{fid}.mp3")
     except Exception as err:
         # print(err)
         return "internal server error", err
